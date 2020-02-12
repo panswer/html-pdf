@@ -54,7 +54,7 @@ const PDF = (req, res) => {
         format: 'A4',
         base: `file:${path.resolve(__dirname, '../html-pdf/css')}`
     }
-    pdf.create(html, option).toFile(`${path.resolve(__dirname,'../../PDFs/')}${nombre}.pdf`, (err, resp) => {
+    pdf.create(html, option).toFile(`${path.resolve(__dirname,'../PDFs')}/${nombre}.pdf`, (err, resp) => {
         if (err) {
             return res.status(400).json({
                 ok: false,
@@ -68,7 +68,7 @@ const PDF = (req, res) => {
     });
 }
 const cargarPDF = (req, res) => {
-    res.sendFile(`${path.resolve(__dirname,'../../PDFs/')}${req.params.usuario}`);
+    res.sendFile(`${path.resolve(__dirname,'../PDFs')}/${req.params.usuario}`);
 }
 module.exports = {
     PDF,
