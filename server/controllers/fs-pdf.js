@@ -42,6 +42,14 @@ const PDF = (req, res) => {
     html = html.replace('|cargoRRHH|', infoUsuario['cargoRRHH']);
     html = html.replace('|telefono|', infoUsuario['telefono']);
     html = html.replace('|email|', infoUsuario['email']);
+    if (SearchScrypt(html)) {
+        return res.status(400).json({
+            ok: false,
+            err: {
+                message: 'No se permiten scripts'
+            }
+        });
+    }
     let option = {
         format: 'A4',
         base: `file:${path.resolve(__dirname, '../html-pdf/css')}`
