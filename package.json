@@ -1,0 +1,22 @@
+{
+  "name": "server-html-pdf",
+  "version": "0.0.1",
+  "description": "Servicio de generacion de pdf por medio de NodeJs y HTML",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "html",
+    "pdf",
+    "nodejs"
+  ],
+  "author": "Ricardo Mejias",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "express-fileupload": "^1.1.6",
+    "html-pdf": "^2.2.0"
+  }
+}
