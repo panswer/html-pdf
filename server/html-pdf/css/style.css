@@ -1,0 +1,61 @@
+* {
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 5em;
+}
+
+h1 {
+    font-size: 1em;
+}
+
+h2 {
+    font-size: 0.5em;
+}
+
+.contenido {
+    display: flex;
+    height: 100vh;
+    justify-content: center;
+}
+
+.marco {
+    width: 450px;
+    height: auto;
+    border: 1px solid grey;
+    margin: 25px;
+    padding: 25px;
+}
+
+.inline {
+    display: flex;
+    align-items: center;
+}
+
+.fechaLugar {
+    text-align: right;
+}
+
+.dirigida {
+    text-align: left;
+}
+
+.info {
+    text-align: justify;
+    margin-bottom: 10em;
+}
+
+.info2 {
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+#logoI {
+    float: left;
+    margin-top: 0;
+    background-color: grey;
+}

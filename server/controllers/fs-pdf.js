@@ -5,119 +5,64 @@ const { SearchScrypt } = require('../security/antiscript');
 
 require('../config/config');
 
-const FS_PDF = (req, res) => {
-    let html = fs.readFileSync(path.resolve(__dirname, '../html-pdf/html2.html'), 'utf8');
-    html = html.replace('Titulo', req.body.titulo);
-    html = html.replace('Contenido', req.body.contenido);
-    if (SearchScrypt(html)) {
-        return res.status(400).json({
-            ok: false,
-            err: {
-                message: 'Intento de carga de script'
-            }
-        });
-    }
-    pdf.create(html, { format: 'Letter' }).toFile(path.resolve(__dirname, '../PDFs/test.pdf'), (err, resp) => {
-        if (err) {
-            return res.status(500).json({
-                ok: false,
-                err
-            });
-        }
-        res.json({
-            ok: true,
-            resp
-        });
-    });
-    /* let options = {
-        format: 'Letter'
-    };
-    pdf.create(html, options).toFile('./server/PDFs/pdf1.pdf', (err, resp) => {
-        if (err) {
-            console.log(`PDF no generado`);
-            console.log(err);
-            return res.status(500).json({
-                ok: false,
-                err
-            });
-        }
-        res.json({
-            ok: true,
-            resp
-        });
-    }); */
-}
-const FS_PDF_CSS = (req, res) => {
-    let html = fs.readFileSync(path.resolve(__dirname, '../html-pdf/html2.html'), 'utf8');
-    let options = {
-        format: 'A4',
-        base: `file:${path.resolve(__dirname,'../html-pdf/css/')}`
-    };
-    pdf.create(html, options).toFile('./server/PDFs/pdf2.pdf', (err, resp) => {
-        if (err) {
-            console.log(`ERROR en FS_PDF_CSS`);
-            return res.status(500).json({
-                ok: false,
-                err
-            });
-        }
-        res.json({
-            ok: true,
-            resp
-        });
-    });
-}
 const PDF = (req, res) => {
-    let html = `${req.body.html}`;
-    let options = {
-        format: 'A4'
+    let nombre = new Date().getTime();
+    let infoUsuario = {
+        ciudad: req.body.ciudad,
+        fecha: req.body.fecha,
+        dirigida: req.body.dirigida,
+        empleado: req.body.empleado,
+        empresa: req.body.empresa,
+        fechaInc: req.body.fechaInc,
+        cargo: req.body.cargo,
+        horarioD: req.body.horarioD,
+        horarioH: req.body.horarioH,
+        diasDescanso: req.body.diasDescanso,
+        salario: req.body.salario,
+        RRHH: req.body.RRHH,
+        cargoRRHH: req.body.cargoRRHH,
+        telefono: req.body.telefono,
+        email: req.body.email,
+        lugar: req.body.lugar
+    };
+    let html = fs.readFileSync(path.resolve(__dirname, '../html-pdf/base.html'), 'utf8');
+    html = html.replace('|ciudad|', infoUsuario['ciudad']);
+    html = html.replace('|fecha|', infoUsuario['fecha']);
+    html = html.replace('|dirigida|', infoUsuario['dirigida']);
+    html = html.replace('|empleado|', infoUsuario['empleado']);
+    html = html.replace('|empleado|', infoUsuario['empleado']);
+    html = html.replace('|empresa|', infoUsuario['empresa']);
+    html = html.replace('|fechaInc|', infoUsuario['fechaInc']);
+    html = html.replace('|cargo|', infoUsuario['cargo']);
+    html = html.replace('|horarioD|', infoUsuario['horarioD']);
+    html = html.replace('|horarioH|', infoUsuario['horarioH']);
+    html = html.replace('|diasDescanso|', infoUsuario['diasDescanso']);
+    html = html.replace('|salario|', infoUsuario['salario']);
+    html = html.replace('|RRHH|', infoUsuario['RRHH']);
+    html = html.replace('|cargoRRHH|', infoUsuario['cargoRRHH']);
+    html = html.replace('|telefono|', infoUsuario['telefono']);
+    html = html.replace('|email|', infoUsuario['email']);
+    let option = {
+        format: 'A4',
+        base: `file:${path.resolve(__dirname, '../html-pdf/css')}`
     }
-    pdf.create(html, options).toFile('./server/PDFs/pdf3.pdf', (err, resp) => {
-        if (err) {
-            console.log('ERROR en PDF');
-            return res.status(500).json({
-                ok: true,
-                err
-            });
-        }
-        res.json({
-            ok: true,
-            resp
-        });
-    });
-}
-const PDF_FILE = (req, res) => {
-    let archivo = req.files.archivo;
-    archivo.mv(path.resolve(__dirname, '../html-pdf/html4.html'), err => {
+    pdf.create(html, option).toFile(`${path.resolve(__dirname,'../../PDFs/')}${nombre}.pdf`, (err, resp) => {
         if (err) {
             return res.status(400).json({
                 ok: false,
                 err
             });
         }
-        let html = fs.readFileSync(path.resolve(__dirname, '../html-pdf/html4.html'), 'utf8');
-        let options = {
-            format: 'Letter'
-        };
-        pdf.create(html, options).toFile('./server/PDFs/pdf1.pdf', (err, resp) => {
-            if (err) {
-                console.log(`PDF no generado`);
-                console.log(err);
-                return res.status(500).json({
-                    ok: false,
-                    err
-                });
-            }
-            res.json({
-                ok: true,
-                resp
-            });
+        res.json({
+            ok: true,
+            url: `http://localhost:3000/fs/${nombre}.pdf`
         });
     });
 }
+const cargarPDF = (req, res) => {
+    res.sendFile(`${path.resolve(__dirname,'../../PDFs/')}${req.params.usuario}`);
+}
 module.exports = {
-    FS_PDF,
-    FS_PDF_CSS,
     PDF,
-    PDF_FILE
+    cargarPDF
 }

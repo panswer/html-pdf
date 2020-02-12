@@ -1,5 +1,5 @@
 const SearchScrypt = (text) => {
-    return /<script>/.test(text);
+    return /script/ig.test(text);
 }
 
 module.exports = {
